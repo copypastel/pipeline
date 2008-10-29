@@ -22,6 +22,21 @@ class Video
   property :updated_at, DateTime
   property :ip, String
   property :count, Integer, :default => 0
+  property :thumbnail, String, :nullable => :false
+  
+  before :valid? do
+    validation_url = @@validation_url + self.url.gsub(/.*youtube.com\/watch\?v=/, '').gsub(/&.*/, '')
+    result = Net::HTTP.get(Module::URI.parse(validation_url))
+    parser = Hpricot(result)
+    thumbnail = (parser/'media:thumbnail')[1]
+    title = (parser/'media:title').first
+    if thumbnail
+      self.thumbnail = thumbnail[:url]
+    end
+    if title
+      self.title = title.inner_html
+    end
+  end
   
   def video_id
     url.gsub(/.*youtube.com\/watch\?v=/, '')
