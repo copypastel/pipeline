@@ -14,11 +14,11 @@ class Videos < Application
       video.count += 1
       video.save
     else
-      unless Video.create( :url => url, :ip => request.remote_ip )
-        return false
+      unless Video.create( :url => url, :ip => request.remote_ip ).valid?
+        return "false"
       end
     end
-    true
+    "true"
   end
   
   def show(id)

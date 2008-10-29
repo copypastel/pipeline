@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-  <script src="http://swfobject.googlecode.com/svn/tags/rc3/swfobject/src/swfobject.js" type="text/javascript"></script>
+  <script src="http://swfobject.googlecode.com/svn/tags/rc3/swfobject/src/swfobject.js" type="text/javascript" charset="utf-8"></script>
   <script src="/javascripts/jquery-1.2.6.js" type="text/javascript" charset="utf-8"></script>
   <title>Pipeline</title>
   
@@ -33,14 +33,22 @@
     overflow: auto;
     border-bottom: 1px solid #111;
     color: white;
+    font-size: 4em;
+    font-weight: bold;
   }
 
   #console form{
     padding-top: 10px;
     margin: 0 auto;
     width: 1200px;
-    font-weight: bold;
-    font-size: 4em;
+  }
+  
+  #failure{
+    padding-top: 10px;
+  }
+  
+  #success{
+    padding-top: 10px;
   }
   
   #console label{
@@ -87,13 +95,71 @@
   <script type="text/javascript" charset="utf-8">
     
     function post_video(){
+      console = $('#console');
       // Get url inputed.
-      yt_url = $('#yt_url').val();
+      yt_url = $('#yt_url');
       // POST the url.
-      $.post("<%=  url(:controller => 'videos', :action => 'create') %>", { url: yt_url }, function(data){
-        //user feedback depending on whether url was correct or not.
+      $.post("<%=  url(:controller => 'videos') %>", { url: yt_url.val() }, function(response){
+        // Hide console.
+        console.animate({ 
+          top: -100,
+          opacity: 0
+          }, 500 );
+        // Clear input and hide form.
+        console.queue( function(){
+          yt_url.attr( 'value', '');
+          $('#video_form').css('display', 'none');
+          $(this).dequeue();
+        });
+        
+        if(response == "true"){
+          // Background to chartreuse, message to 'success'
+          console.queue( function(){
+            $(this).css('background-color', 'chartreuse');
+            $('#success').show();
+            $(this).dequeue();
+          });
+        }
+        else{
+          // Background to red, message to 'failure'
+          console.queue( function(){
+            $(this).css('background-color', 'red');
+            $('#failure').show();
+            $(this).dequeue();
+            });
+        };
+        
+        // Show console.
+        console.animate({ 
+          top: 0,
+          opacity: 0.85
+          }, 500 );
+
+        setTimeout( function(){
+        
+          // Hide console.
+          console.animate({ 
+            top: -100,
+            opacity: 0
+            }, 500 );
+        
+          console.queue( function(){
+            $(this).css('background-color', 'black');
+            $('#video_form').css('display', 'block');
+            $('#failure').css('display', 'none');
+            $('#success').css('display', 'none');
+            $(this).dequeue();
+          });
+        
+          // Show console.
+          console.animate({ 
+            top: 0,
+            opacity: 0.85
+            }, 500 );
+        }, 5000);
       }, 'text');
-    }
+ 
+    };
     
   </script>
 </head>
@@ -101,7 +167,9 @@
 <body>
 
   <div id="console">
-    <form style='margin: 0 auto;' action="javascript:post_video();">
+    <div id='success' style='margin: 0 auto; width: 380px; display: none;'>video added</div>
+    <div id='failure' style='margin: 0 auto; width: 470px; display: none;'>check video url</div>
+    <form id='video_form' style='margin: 0 auto; width: 1180px;' action="javascript:post_video();">
       <label>youtube url </label><input id='yt_url' type='text' value=''></input>
     </form>
   </div>
