@@ -1,0 +1,7 @@
+<script>
+  function onYouTubePlayerReady(){
+    var video = document.getElementById("video_player");
+    video.loadVideoById("<%= @video.video_id %>", 0);
+    video.playVideo();
+  }
+</script>
