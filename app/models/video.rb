@@ -16,8 +16,8 @@ class Video
     else
       false
     end
-    }
-  property :title, String, :default => "Pending..."
+    }, :message => "check video url"
+  property :title, Text, :lazy => false, :default => "Pending..."
   property :created_at, DateTime
   property :updated_at, DateTime
   property :ip, String
@@ -30,12 +30,24 @@ class Video
     parser = Hpricot(result)
     thumbnail = (parser/'media:thumbnail')[1]
     title = (parser/'media:title').first
+    unless (parser/'yt:noembed').size.zero?
+      self.errors.add(:url, "video isn't embeddable")
+      throw :halt
+    end
     if thumbnail
       self.thumbnail = thumbnail[:url]
     end
     if title
       self.title = title.inner_html
     end
+  end
+  
+  def self.list
+    self.all :order => [:updated_at.desc]
+  end
+  
+  def next
+    Video.first :updated_at.gt => self.updated_at, :order => [:updated_at.asc]
   end
   
   def video_id

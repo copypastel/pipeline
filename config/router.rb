@@ -30,6 +30,8 @@ Merb::Router.prepare do
   # RESTful routes
   # resources :posts
   
+  match('/videos/playlist').to(:controller => 'videos', :action => 'playlist')
+  
   resources :videos
   
   # Adds the required routes for merb-auth using the password slice

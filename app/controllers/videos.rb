@@ -4,6 +4,7 @@ class Videos < Application
   # goes to the client...
   
   def index
+    @videos = Video.list
     @video = Video.latest
     render
   end
@@ -14,16 +15,23 @@ class Videos < Application
       video.count += 1
       video.save
     else
-      unless Video.create( :url => url, :ip => request.remote_ip ).valid?
-        return "false"
+      vid = Video.create( :url => url, :ip => request.remote_ip )
+      unless vid.valid?
+        return vid.errors[:url].first
       end
     end
     "true"
   end
   
   def show(id)
+    @videos = Video.list
     @video = Video.get(id)
     render
+  end
+  
+  def playlist
+    @videos = Video.list
+    partial :playlist
   end
   
 end

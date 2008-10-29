@@ -1,7 +1,11 @@
 <script>
+  <% unless @video.nil? %>
+  document.title = "Pipeline :: " + "<%= @video.title %>";
+
   function onYouTubePlayerReady(){
     var video = document.getElementById("video_player");
     video.loadVideoById("<%= @video.video_id %>", 0);
     video.playVideo();
   }
+  <% end %>
 </script>
