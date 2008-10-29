@@ -5,6 +5,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <script src="http://swfobject.googlecode.com/svn/tags/rc3/swfobject/src/swfobject.js" type="text/javascript"></script>
+  <script src="/javascripts/jquery-1.2.6.js" type="text/javascript" charset="utf-8"></script>
   <title>Pipeline</title>
   
   <style type="text/css" media="screen">
@@ -82,25 +83,26 @@
   }
 
   </style>
+  
+  <script type="text/javascript" charset="utf-8">
+    
+    function post_video(){
+      // Get url inputed.
+      yt_url = $('#yt_url').val();
+      // POST the url.
+      $.post("<%=  url(:controller => 'videos', :action => 'create') %>", { url: yt_url }, function(data){
+        //user feedback depending on whether url was correct or not.
+      }, 'text');
+    }
+    
+  </script>
 </head>
 
 <body>
-  <div id='bytesloaded'></div>
-  <div id="playerstate">
-  </div>
-  <div id="volume">
-  </div>
-  <div id="startbytes">
-  </div>
-  <div id="videotime">
-  </div>
-  <div id="videoduration">
-  </div>
-  <div id="bytestotal">
-  </div>
+
   <div id="console">
-    <form style='margin: 0 auto;'>
-      <label>youtube url </label><input type='text'></input>
+    <form style='margin: 0 auto;' action="javascript:post_video();">
+      <label>youtube url </label><input id='yt_url' type='text' value=''></input>
     </form>
   </div>
 

@@ -13,4 +13,8 @@ class Video
     url.gsub(/.*youtube.com\/watch\?v=/, '')
   end
 
+  def self.latest
+    self.first :order => [:updated_at.desc]
+  end
+
 end

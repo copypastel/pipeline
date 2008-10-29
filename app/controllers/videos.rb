@@ -2,21 +2,23 @@ class Videos < Application
 
   # ...and remember, everything returned from an action
   # goes to the client...
+  
   def index
+    @video = Video.latest
     render
   end
   
-  def create(params)
+  def create(url)
     # If this url has already been submitted, we only need to increase the count
-    if video = Video.find( :url => params[:url] )
+    if video = Video.first( :url => url )
       video.count += 1
       video.save
     else
-      unless Video.create( :url => params[:url], :ip => request.remote_ip )
-        return partial( :not_created )
+      unless Video.create( :url => url, :ip => request.remote_ip )
+        return false
       end
     end
-    partial :created
+    true
   end
   
   def show(id)
