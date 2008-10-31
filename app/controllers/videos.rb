@@ -13,7 +13,8 @@ class Videos < Application
   
   def create(url)
     # If this url has already been submitted, we only need to increase the count
-    if video = Video.first( :url => url )
+    url.strip!
+    if video = Video.first( :url => url)
       video.count += 1
       video.save
     else

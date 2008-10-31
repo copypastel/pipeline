@@ -11,30 +11,24 @@
     video.addEventListener("onStateChange", "pickNext");
   }
   
-  function loadNextVideo(current_video_id, flag){
+  function loadNextVideo(current_video_id){
     $.get("<%= url(:controller => 'videos', :action => 'next')%>", { id: current_video_id }, function(response){
-      if(response.result == "false"){
-        if(flag == 0){
-          intervalId = setInterval("loadNextVideo(" + current_video_id + ", 1)", 30000);
-        }
-      }
+      if(response.result == "false")
+        setTimeout("loadNextVideo(" + current_video_id +")", 30000);
       else{
+        alert("Current video id: " + current_video_id );
         var video = document.getElementById("video_player");
         video.loadVideoById(response.video_id, 0);
         video.playVideo();
         vid = response.id;
-        video.addEventListener("onStateChange", "pickNext");
-        if( flag == 1 )
-          clearInterval(intervalId);
       };
     }, 'json');
   }
   
   function pickNext(state){
     if(state == 0)
-      loadNextVideo(vid, 0);
+      loadNextVideo(vid);
   }
-
   
   <% end %>
   
