@@ -30,6 +30,7 @@ Merb::Router.prepare do
   # RESTful routes
   # resources :posts
   
+  match('/videos/next').to(:controller => 'videos', :action => 'next')
   match('/videos/playlist').to(:controller => 'videos', :action => 'playlist')
   
   resources :videos

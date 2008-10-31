@@ -3,6 +3,8 @@ class Videos < Application
   # ...and remember, everything returned from an action
   # goes to the client...
   
+  provides :html, :json
+  
   def index
     @videos = Video.list
     @video = Video.latest
@@ -32,6 +34,14 @@ class Videos < Application
   def playlist
     @videos = Video.list
     partial :playlist
+  end
+  
+  def next(id)
+    video = Video.get(id).next
+    unless video.nil?
+      return video.to_json 
+    end
+    return {:result => "false"}.to_json
   end
   
 end

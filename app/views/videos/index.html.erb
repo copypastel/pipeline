@@ -7,14 +7,35 @@
     var video = document.getElementById("video_player");
     video.loadVideoById("<%= @video.video_id %>", 0);
     video.playVideo();
-    video.addEventListener("onStateChange", "alertState");
+    vid = "<%= @video.id %>";
+    video.addEventListener("onStateChange", "pickNext");
   }
-    
+  
+  function loadNextVideo(current_video_id, flag){
+    $.get("<%= url(:controller => 'videos', :action => 'next')%>", { id: current_video_id }, function(response){
+      if(response.result == "false"){
+        if(flag == 0){
+          intervalId = setInterval("loadNextVideo(" + current_video_id + ", 1)", 5000);
+        }
+      }
+      else{
+        var video = document.getElementById("video_player");
+        video.loadVideoById(response.video_id, 0);
+        video.playVideo();
+        vid = response.id;
+        video.addEventListener("onStateChange", "pickNext");
+        if( flag == 1 )
+          clearInterval(intervalId);
+      };
+    }, 'json');
+  }
+  
   function pickNext(state){
-    if( state == 0){
-      
-    }
+    if(state == 0)
+      loadNextVideo(vid, 0);
   }
+
+  
   <% end %>
   
 </script>

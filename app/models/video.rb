@@ -51,11 +51,17 @@ class Video
   end
   
   def video_id
-    url.gsub(/.*youtube.com\/watch\?v=/, '')
+    url.gsub(/.*youtube.com\/watch\?v=/, '').gsub(/&.*/, '')
   end
 
   def self.latest
     self.first :order => [:updated_at.desc]
+  end
+
+  def to_json
+    hash = self.attributes
+    hash[:video_id] = self.video_id
+    hash.to_json
   end
 
 end
