@@ -16,7 +16,6 @@
       if(response.result == "false")
         setTimeout("loadNextVideo(" + current_video_id +")", 30000);
       else{
-        alert("Current video id: " + current_video_id );
         var video = document.getElementById("video_player");
         video.loadVideoById(response.video_id, 0);
         video.playVideo();
