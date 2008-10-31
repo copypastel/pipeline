@@ -20,6 +20,7 @@
         video.loadVideoById(response.video_id, 0);
         video.playVideo();
         vid = response.id;
+        document.title = "Pipeline :: " + response.title;
       };
     }, 'json');
   }
