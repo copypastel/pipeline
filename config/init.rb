@@ -17,6 +17,17 @@ end
  
 Merb::BootLoader.before_app_loads do
   # This will get executed after dependencies have been loaded but before your app's classes have loaded.
+  module Merb
+    module Assets
+      module AssetHelpers
+        ASSET_FILE_EXTENSIONS = {
+          :javascript => ".js",
+          :stylesheet => ".css",
+          :image => ".png"
+        }
+      end
+    end
+  end
 end
  
 Merb::BootLoader.after_app_loads do
