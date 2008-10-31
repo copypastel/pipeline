@@ -108,6 +108,10 @@
   
   <script type="text/javascript" charset="utf-8">
     
+    setInterval(function() {
+         $('#playlist').load("<%= url(:controller => 'videos', :action => 'playlist')%>");
+    }, 30000);
+    
     function post_video(){
       console = $('#console');
       // Get url inputed.
@@ -233,22 +237,6 @@
   </script>
 
   <%= catch_content :for_layout %>
-
-  <script type="text/javascript" charset="utf-8">
-  /*$("#console").click(function(){
-    $("#console").animate({ 
-      top: -100,
-      opacity: 0,
-      }, 500 );
-    });
-    $("body").click(function(){
-      $("#console").animate({ 
-        top: 0,
-        opacity: 0.85,
-        }, 500 );
-      });
-*/
-  </script>
 
 </body>
 </html>

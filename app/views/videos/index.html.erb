@@ -1,4 +1,5 @@
 <script>
+  
   <% unless @video.nil? %>
   document.title = "Pipeline :: " + "<%= @video.title %>";
 
@@ -6,6 +7,14 @@
     var video = document.getElementById("video_player");
     video.loadVideoById("<%= @video.video_id %>", 0);
     video.playVideo();
+    video.addEventListener("onStateChange", "alertState");
+  }
+    
+  function pickNext(state){
+    if( state == 0){
+      
+    }
   }
   <% end %>
+  
 </script>
