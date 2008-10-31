@@ -15,7 +15,7 @@
     $.get("<%= url(:controller => 'videos', :action => 'next')%>", { id: current_video_id }, function(response){
       if(response.result == "false"){
         if(flag == 0){
-          intervalId = setInterval("loadNextVideo(" + current_video_id + ", 1)", 5000);
+          intervalId = setInterval("loadNextVideo(" + current_video_id + ", 1)", 30000);
         }
       }
       else{
