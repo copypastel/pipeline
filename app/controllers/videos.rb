@@ -36,7 +36,7 @@ class Videos < Application
     @videos = Video.list
     partial :playlist
   end
-  
+  #Doesn't merb automatically convert to jsan if the request specifies it?
   def next(id)
     video = Video.get(id).next
     unless video.nil?
