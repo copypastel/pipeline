@@ -50,6 +50,10 @@ class Video
     Video.first :updated_at.gt => self.updated_at, :order => [:updated_at.asc]
   end
   
+  def prev
+    Video.first :updated_at.lt => self.updated_at, :order => [:updated_at.desc]
+  end
+  
   def video_id
     url.gsub(/.*youtube.com\/watch\?v=/, '').gsub(/&.*/, '')
   end
