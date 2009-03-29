@@ -7,8 +7,8 @@
     var video = document.getElementById("video_player");
     video.loadVideoById("<%= @video.video_id %>", 0);
     video.playVideo();
-    vid = "<%= @video.id %>";
-    video.addEventListener("onStateChange", "pickNext");
+//    vid = "<%= @video.id %>";
+    video.addEventListener("onStateChange", "YoutubeStateCallback");
   }
   
   function loadNextVideo(current_video_id){
@@ -19,15 +19,17 @@
         var video = document.getElementById("video_player");
         video.loadVideoById(response.video_id, 0);
         video.playVideo();
-        vid = response.id;
+//        vid = response.id;
         document.title = "Pipeline :: " + response.title;
       };
     }, 'json');
   }
   
-  function pickNext(state){
-    if(state == 0)
+// Set by an event to be the callback, contains the proper response
+  function YoutubeStateCallback(state){
+    if(state == YOUTUBE_CMD_VIDEO_DONE) {
       loadNextVideo(vid);
+	}
   }
   
   <% end %>
