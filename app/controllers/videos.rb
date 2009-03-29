@@ -2,7 +2,6 @@ class Videos < Application
 
   # ...and remember, everything returned from an action
   # goes to the client...
-  
   provides :html, :json
   
   def index
