@@ -1,6 +1,6 @@
 class Video
   include DataMapper::Resource
-  
+  @@new_list = false
   @@validation_url = 'http://gdata.youtube.com/feeds/api/videos/'
   
   property :id, Serial
@@ -42,8 +42,16 @@ class Video
     end
   end
   
+  after :save do
+    @@new_list = true
+  end
+  
   def self.list
     self.all :order => [:updated_at.desc]
+  end
+  
+  def self.new_list?
+    @@new_list
   end
   
   def next

@@ -9,6 +9,13 @@ var current_video
 function onLoad(video) {
 	current_video = video;
 	document.title = "Pipeline :: " + current_video.title;
+	//Load playlist the playlist off
+	$.get("/videos/playlist", { force_list: "true" }, onPlaylistHandle);
+	//Start playlist refresh to 15 seconds
+	$.jheartbeat.set({
+	  url:    "/videos/playlist", // The URL that jHeartbeat will retrieve
+	  delay:  15000, // How often jHeartbeat should retrieve the URL
+	  format: "html" }, onPlaylistHandle);
 }
 //TODO: Verrify that this is true
 //Called by third party sourcecode when the youtube player is ready
@@ -37,6 +44,13 @@ function loadNextVideo(video) {
 function onYoutubeStateHandle(state){
     if(state == YOUTUBE_CMD_VIDEO_DONE) {
       loadNextVideo(current_video);
+	}
+}
+
+function onPlaylistHandle(response) {
+	if(response == null); //No change so leave it
+	else {
+		$('#playlist').html(response);
 	}
 }
 

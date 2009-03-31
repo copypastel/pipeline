@@ -5,9 +5,11 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <script src="http://swfobject.googlecode.com/svn/tags/rc3/swfobject/src/swfobject.js" type="text/javascript" charset="utf-8"></script>
-  <%= js_include_tag  'jquery-1.2.6' %>
-  <%= js_include_tag  'videos'%>
-  <%= css_include_tag 'videos'%>
+  <%= js_include_tag  'jquery-1.2.6'  %>
+  <%= js_include_tag  'videos'        %>
+  <%= js_include_tag  'jheartbeat.js' %>
+
+  <%= css_include_tag 'videos' %>
   <title>Pipeline</title>
 </head>
 <body onLoad="onLoad(new JSVideo('<%= @video.title %>','<%= @video.video_id %>','<%= @video.id %>') );">
@@ -26,10 +28,8 @@
 	%>
   </div>
 
-  <div id='playlist'>
-
-  <%= partial :playlist %>
-  
+  <div id='playlist'>  
+	<!-- populated by onPlaylistHandle from ajax calls -->
   </div>
 
   <script type="text/javascript">

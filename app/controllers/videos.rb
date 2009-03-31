@@ -33,7 +33,8 @@ class Videos < Application
   
   def playlist
     @videos = Video.list
-    partial :playlist
+    if(Video.new_list? or params[:force_list] == "true") then partial :playlist
+    else "No Update";end
   end
   
   def next(id)
