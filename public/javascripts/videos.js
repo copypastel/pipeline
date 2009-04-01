@@ -16,6 +16,8 @@ function onLoad(video) {
 	  url:    "/videos/playlist", // The URL that jHeartbeat will retrieve
 	  delay:  15000, // How often jHeartbeat should retrieve the URL
 	  format: "html" }, onPlaylistHandle);
+	//Load playlist options
+	$("body").append(" <span id='vid_opts_queue' style='background: url(/images/balloon.png) no-repeat; width: 102px; height: 24px; position: absolute; top: 500px; left: 24px; color: black; font-weight: bold; text-align: center; opacity: 0.0; cursor: pointer;'>queue</span>");
 }
 //TODO: Verrify that this is true
 //Called by third party sourcecode when the youtube player is ready
@@ -60,6 +62,31 @@ function JSVideo(title,video_id,id) {
 	this.video_id = video_id; //Youtube ID of video
 	this.db_id    = id;       //database ID of video
 }
+
+function onRegisterThumbnailHandlers(thumb_id) {
+	thumb_id = "#"+thumb_id;
+	$(thumb_id).mouseover(onThumbnailMouseOver);
+	$(thumb_id).mouseout(onThumbnailMouseOut);
+}
+function onThumbnailMouseOver(event) {
+	thumbnail = event.currentTarget;
+	loc = (findPos(thumbnail));
+	locoff = [15,-20]
+
+	$('#vid_opts_queue').css('left',(loc[0]+locoff[0])+'px');
+	$('#vid_opts_queue').css('top',(loc[1]+locoff[1])+'px');
+	$('#vid_opts_queue').css('opacity',.9)
+//    $('vid_opts_queue').css('opacity', 1.0);
+}
+
+function onThumbnailMouseOut(event) {
+	thumbnail = event.currentTarget;
+	$('#vid_opts_queue').css('opacity',0.0)
+}
+
+//Taken from http://www.quirksmode.org/js/findpos.html
+//Returns the position of an object [left,top]
+function findPos(o) {var a = b = 0;if (o.offsetParent) {do {a += o.offsetLeft;b += o.offsetTop;} while (o = o.offsetParent);return [a,b];}}
 
 
 //Called bye video submission form.

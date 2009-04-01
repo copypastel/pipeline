@@ -1,9 +1,10 @@
 <% @videos.each do |vid| %>
 
-<%= video_frame_around "<a href=\"#{resource(vid)}\" id='vid_#{vid.id}'>
-                          <div>
-                            <img src=\"#{vid.thumbnail}\" alt=\"#{vid.title}\">
-                          </div>
-                        </a>" %>
-
+<div class="thumbnail" style='height: 117px; width: 150px; padding: 10px;' >
+  <%= video_frame_around "
+      <div>
+        <img src=\"#{vid.thumbnail}\" onload=\"onRegisterThumbnailHandlers('vid_#{vid.id}');\" alt=\"#{vid.title}\" id='vid_#{vid.id}' />
+      </div>"
+  %>
+</div>
 <% end %>

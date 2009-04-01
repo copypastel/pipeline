@@ -12,7 +12,7 @@
   <%= css_include_tag 'videos' %>
   <title>Pipeline</title>
 </head>
-<body onLoad="onLoad(new JSVideo('<%= @video.title %>','<%= @video.video_id %>','<%= @video.id %>') );">
+<body onload="onLoad(new JSVideo('<%= @video.title %>','<%= @video.video_id %>','<%= @video.id %>') );">
 
   <div id="console">
     <div  id='console_message' style='margin: 0 auto; width: 100%; text-align: center; display: none;'></div>
@@ -47,6 +47,5 @@
   </script>
 
   <%= catch_content :for_layout %>
-
 </body>
 </html>

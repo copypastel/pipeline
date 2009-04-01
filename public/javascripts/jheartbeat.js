@@ -43,7 +43,7 @@
 					response = e;
 				},
 				success: function(data){ 
-					response = e;
+					response = data;
 				}
 			   });
 		this.timeoutobj.id = setTimeout("$.jheartbeat.beat();", this.options.delay);
