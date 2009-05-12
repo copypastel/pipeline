@@ -12,8 +12,11 @@
   <%= css_include_tag 'videos' %>
   <title>Pipeline</title>
 </head>
+<% unless @video.nil?%>
 <body onload="onLoad(new JSVideo('<%= @video.title %>','<%= @video.video_id %>','<%= @video.id %>') );">
-
+<% else %>
+<body>
+<% end %>
   <div id="console">
     <div  id='console_message' style='margin: 0 auto; width: 100%; text-align: center; display: none;'></div>
     <form id='video_form' style='margin: 0 auto; width: 1180px;' action="javascript:post_video();">

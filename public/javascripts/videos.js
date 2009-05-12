@@ -4,7 +4,8 @@
 *************************************/
 //Youtube Constants
 const YOUTUBE_CMD_VIDEO_DONE = 0;
-var current_video
+var current_video;
+var current_thumbnail;
 //called when the page is finished loading.
 function onLoad(video) {
 	current_video = video;
@@ -18,6 +19,8 @@ function onLoad(video) {
 	  format: "html" }, onPlaylistHandle);
 	//Load playlist options
 	$("body").append(" <span id='vid_opts_queue' style='background: url(/images/balloon.png) no-repeat; width: 102px; height: 24px; position: absolute; top: 500px; left: 24px; color: black; font-weight: bold; text-align: center; opacity: 0.0; cursor: pointer;'>queue</span>");
+	//Initialize current_thumbnail to nil
+	current_thumbnail = null;
 }
 //TODO: Verrify that this is true
 //Called by third party sourcecode when the youtube player is ready
@@ -71,17 +74,46 @@ function onRegisterThumbnailHandlers(thumb_id) {
 function onThumbnailMouseOver(event) {
 	thumbnail = event.currentTarget;
 	loc = (findPos(thumbnail));
-	locoff = [15,-20]
-
-	$('#vid_opts_queue').css('left',(loc[0]+locoff[0])+'px');
-	$('#vid_opts_queue').css('top',(loc[1]+locoff[1])+'px');
-	$('#vid_opts_queue').css('opacity',.9)
-//    $('vid_opts_queue').css('opacity', 1.0);
+	
+	if(current_thumbnail != null) {
+		current_thumbnail.destroy
+	}
+	
+	current_thumbnail = new Thumbnail(thumbnail)
+	current_thumbnail.show_opts();
 }
 
 function onThumbnailMouseOut(event) {
 	thumbnail = event.currentTarget;
-	$('#vid_opts_queue').css('opacity',0.0)
+
+	current_thumbnail.hide_opts_in(50);
+}
+
+function Thumbnail(thumbnail) {
+	id: -1,
+	vid_id: -1,
+	timeout_active: false, 
+	locoff: [15,-20], 
+		
+	destroy: function() {
+		if (this.timeout_active) {
+			clearTimeout(this)
+		}
+	},
+	
+	hide_opts_in: function(time) {
+		this.id = setTimeout(hide_opts,time)	
+	},
+	
+	hide_opts: function() {
+		$('#vid_opts_queue').css('opacity',0)
+	},
+	
+	show_opts: function() {
+		$('#vid_opts_queue').css('left',(loc[0]+locoff[0])+'px');
+		$('#vid_opts_queue').css('top',(loc[1]+locoff[1])+'px');
+		$('#vid_opts_queue').css('opacity',.9)
+	}	
 }
 
 //Taken from http://www.quirksmode.org/js/findpos.html
