@@ -4,12 +4,14 @@
 *************************************/
 //Youtube Constants
 const YOUTUBE_CMD_VIDEO_DONE = 0;
-var current_video;
-var current_thumbnail;
+var current_video = null;
+var current_thumbnail = null;
 //called when the page is finished loading.
 function onLoad(video) {
-	current_video = video;
-	document.title = "Pipeline :: " + current_video.title;
+  if(video != null) {
+	  current_video = video;
+	  document.title = "Pipeline :: " + current_video.title;
+  }
 	//Load playlist the playlist off
 	$.get("/videos/playlist", { force_list: "true" }, onPlaylistHandle);
 	//Start playlist refresh to 15 seconds
@@ -90,30 +92,30 @@ function onThumbnailMouseOut(event) {
 }
 
 function Thumbnail(thumbnail) {
-	id: -1,
-	vid_id: -1,
-	timeout_active: false, 
-	locoff: [15,-20], 
+	this.id = -1;
+	this.vid_id = -1;
+	this.timeout_active = false; 
+	this.locoff = [15,-20];
 		
-	destroy: function() {
+	this.destroy =  function() {
 		if (this.timeout_active) {
 			clearTimeout(this)
 		}
-	},
+	};
 	
-	hide_opts_in: function(time) {
-		this.id = setTimeout(hide_opts,time)	
-	},
+	this.hide_opts_in =  function(time) {
+		this.id = setTimeout(this.hide_opts,time)	
+	};
 	
-	hide_opts: function() {
+	this.hide_opts = function() {
 		$('#vid_opts_queue').css('opacity',0)
-	},
+	};
 	
-	show_opts: function() {
-		$('#vid_opts_queue').css('left',(loc[0]+locoff[0])+'px');
-		$('#vid_opts_queue').css('top',(loc[1]+locoff[1])+'px');
+	this.show_opts = function() {
+		$('#vid_opts_queue').css('left',(loc[0]+this.locoff[0])+'px');
+		$('#vid_opts_queue').css('top',(loc[1]+this.locoff[1])+'px');
 		$('#vid_opts_queue').css('opacity',.9)
-	}	
+	}
 }
 
 //Taken from http://www.quirksmode.org/js/findpos.html

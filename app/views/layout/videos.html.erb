@@ -15,7 +15,7 @@
 <% unless @video.nil?%>
 <body onload="onLoad(new JSVideo('<%= @video.title %>','<%= @video.video_id %>','<%= @video.id %>') );">
 <% else %>
-<body>
+<body onload="onLoad(null);">
 <% end %>
   <div id="console">
     <div  id='console_message' style='margin: 0 auto; width: 100%; text-align: center; display: none;'></div>
